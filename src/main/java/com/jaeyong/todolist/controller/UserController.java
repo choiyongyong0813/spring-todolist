@@ -3,10 +3,9 @@ package com.jaeyong.todolist.controller;
 import com.jaeyong.todolist.domain.User;
 import com.jaeyong.todolist.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /*
@@ -26,4 +25,9 @@ public class UserController {
     public User createUser(@RequestBody User user) {
         return  userRepository.save(user); // JPA save로 DB에 저장 → 저장된 User 객체 반환
     }
+
+   @GetMapping
+   public List<User> getAllUsers(){
+        return userRepository.findAll();
+   }
 }
