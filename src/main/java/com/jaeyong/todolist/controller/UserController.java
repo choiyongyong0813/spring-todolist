@@ -1,8 +1,10 @@
 package com.jaeyong.todolist.controller;
 
 import com.jaeyong.todolist.domain.User;
+import com.jaeyong.todolist.dto.UserRequestDTO;
 import com.jaeyong.todolist.dto.UserResponseDTO;
 import com.jaeyong.todolist.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +26,8 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@Valid @RequestBody UserRequestDTO requestDTO) {
+        User user = User.builder().email(requestDTO.getEmail()).password(requestDTO.getPassword()).nickname(requestDTO.getNickname()).build();
         return userRepository.save(user); // JPA save로 DB에 저장 → 저장된 User 객체 반환
     }
 
