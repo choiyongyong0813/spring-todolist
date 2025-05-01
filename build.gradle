@@ -28,13 +28,23 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.mysql:mysql-connector-j:8.0.33'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+configurations.all {
+	resolutionStrategy {
+		eachDependency { details ->
+			if (details.requested.group == 'mysql' && details.requested.name == 'mysql-connector-j') {
+				details.useVersion '8.0.33'
+			}
+		}
+	}
 }
 
 tasks.named('test') {
