@@ -50,4 +50,16 @@ public class UserController {
                 .nickname(user.getNickname()) // 조회된 유저의 닉네임을 응답 DTO에 세팅
                 .build(); // UserResponseDTO 객체 생성 및 반환
     }
+
+    @GetMapping("/email")
+    public UserResponseDTO getUserByEmail(@RequestParam String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이메일의 유저가 없습니다."));
+
+        return UserResponseDTO.builder()
+                .id(user.getId()) // 조회된 유저의 ID
+                .email(user.getEmail()) // 조회된 유저의 이메일
+                .nickname(user.getNickname()) // 조회된 유저의 닉네임
+                .build();
+    }
 }
