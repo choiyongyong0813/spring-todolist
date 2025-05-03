@@ -31,10 +31,19 @@ public class UserController {
         return userRepository.save(user); // JPA save로 DB에 저장 → 저장된 User 객체 반환
     }
 
-    @GetMapping
+    @GetMapping // HTTP GET 요청을 처리함 → GET /users
     public List<UserResponseDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(user -> UserResponseDTO.builder().id(user.getId()).email(user.getEmail()).nickname(user.getNickname()).build()).collect(Collectors.toList());
+        return userRepository. // JPA를 통해 DB에서 모든 User 엔티티를 조회
+                findAll().
+                stream(). // List<User>를 스트림으로 변환
+                        map(user -> UserResponseDTO.builder(). // 각 User를 UserResponseDTO로 변환
+                        id(user.getId()).              // ID 설정
+                        email(user.getEmail()).        // 이메일 설정
+                        nickname(user.getNickname()).  // 닉네임 설정
+                        build()).                      // DTO 객체 생성
+                        collect(Collectors.toList()); // 모든 DTO를 리스트로 수집 후 반환
     }
+
 
 
     @GetMapping("/{id}") // GET /users/{id} 요청을 처리하는 메서드
