@@ -36,4 +36,18 @@ public class UserController {
         return userRepository.findAll().stream().map(user -> UserResponseDTO.builder().id(user.getId()).email(user.getEmail()).nickname(user.getNickname()).build()).collect(Collectors.toList());
     }
 
+
+    @GetMapping("/{id}") // GET /users/{id} 요청을 처리하는 메서드
+    public UserResponseDTO getUserById(@PathVariable Long id) {
+        // URL 경로에서 {id} 값을 Long 타입으로 받아옴
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다. ID: " + id));
+        // 해당 ID의 유저를 데이터베이스에서 조회하고, 없으면 예외 발생
+
+        return UserResponseDTO.builder()
+                .id(user.getId()) // 조회된 유저의 ID를 응답 DTO에 세팅
+                .email(user.getEmail()) // 조회된 유저의 이메일을 응답 DTO에 세팅
+                .nickname(user.getNickname()) // 조회된 유저의 닉네임을 응답 DTO에 세팅
+                .build(); // UserResponseDTO 객체 생성 및 반환
+    }
 }
