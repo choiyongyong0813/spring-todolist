@@ -1,9 +1,6 @@
 package com.jaeyong.todolist.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 /*
@@ -11,6 +8,7 @@ import lombok.*;
     DB의 user 테이블과 매핑될 객체
  */
 @Entity                 // 이 클래스는 JPA에서 관리되는 엔티티를 표시
+@Table(name = "users")
 @Getter                 //Getter 자동생성
 @Setter                 //Setter 자동생성
 @NoArgsConstructor      //기본 생성자 생성
