@@ -21,6 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // MySQL의 AUTO_INCREMENT처럼 DB가 자동으로 ID를 증가시킴
 
     private Long id;        // 사용자 아이디
+    @Column(nullable = false, unique = true) // null 값을 허용하지 않고, 중복도 허용하지 않음
     private String email;   // 사용자 이메일
     private String password;// 사용자 비밀번호
     private String nickname;// 사용자 닉네임
