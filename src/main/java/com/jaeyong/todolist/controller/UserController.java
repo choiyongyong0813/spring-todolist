@@ -3,6 +3,7 @@ package com.jaeyong.todolist.controller;
 import com.jaeyong.todolist.domain.User;
 import com.jaeyong.todolist.dto.UserRequestDTO;
 import com.jaeyong.todolist.dto.UserResponseDTO;
+import com.jaeyong.todolist.dto.UserUpdateDTO;
 import com.jaeyong.todolist.repository.UserRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -71,4 +72,24 @@ public class UserController {
                 .nickname(user.getNickname()) // 조회된 유저의 닉네임
                 .build();
     }
+
+    @PutMapping("/{id}")
+    public UserResponseDTO updateUser(
+        @PathVariable Long id,
+        @Valid @RequestBody UserUpdateDTO updateDTO){
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+        user.setNickname(updateDTO.getNickname());
+        user.setPassword(updateDTO.getPassword());
+        // 3. DB에 반영 (save는 수정도 포함)
+        User updatedUser = userRepository.save(user);
+
+        // 4. 응답 DTO로 변환해서 반환
+        return UserResponseDTO.builder()
+                .id(updatedUser.getId())
+                .email(updatedUser.getEmail()) // 이메일은 수정하지 않음
+                .nickname(updatedUser.getNickname())
+                .build();
+    }
+
 }
