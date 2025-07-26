@@ -92,4 +92,15 @@ public class UserController {
                 .build();
     }
 
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다."));
+
+        userRepository.delete(user); // 삭제 수행
+
+        return "유저가 성공적으로 삭제되었습니다. ID: " + id;
+    }
+
 }
